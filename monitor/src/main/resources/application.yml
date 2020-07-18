@@ -1,0 +1,27 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-1:8761/eureka/, http://eureka-2:8762/eureka/
+
+management:
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+    shutdown:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+spring:
+  application:
+    name: monitor
+
+turbine:
+  app-config: api, consumer
+  cluster-name-expression: new String('default')
+
+server:
+  port: 9010

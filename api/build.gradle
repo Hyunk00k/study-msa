@@ -1,0 +1,14 @@
+dependencies {
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-hystrix'
+}
+
+task startApp1(type: Exec) {
+    commandLine 'java', '-jar', '-Dspring.profiles.active=app-1', './build/libs/api-0.0.1-SNAPSHOT.jar'
+}
+task startApp2(type: Exec) {
+    commandLine 'java', '-jar', '-Dspring.profiles.active=app-2', './build/libs/api-0.0.1-SNAPSHOT.jar'
+}
+task startApp3(type: Exec) {
+    commandLine 'java', '-jar', '-Dspring.profiles.active=app-3', './build/libs/api-0.0.1-SNAPSHOT.jar'
+}

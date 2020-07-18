@@ -1,0 +1,83 @@
+management:
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+    shutdown:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+spring:
+  application:
+    name: api
+  profiles:
+    active: app-1
+
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 5
+    leaseExpirationDurationInSeconds: 10
+  client:
+    service-url:
+      defaultZone: http://eureka-1:8761/eureka/, http://eureka-2:8762/eureka/
+
+hystrix:
+  groupKey: system
+  fallbackMethod: brekaer
+  enabled: true
+  threadpool:
+    default:
+      coreSize: 50
+      maximumSize: 500
+      keepAliveTimeMinutes: 1
+      allowMaximumSizeToDivergeFromCoreSize: true
+    custom-th:
+      coreSize: 20
+      maximumSize: 40
+      keepAliveTimeMinutes: 1
+      allowMaximumSizeToDivergeFromCoreSize: true
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 100000
+      circuitBreaker:
+        requestVolumeThreshold: 2
+        errorThresholdPercentage: 50
+        enabled: true
+    custom-cm:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 10000
+      circuitBreaker:
+        requestVolumeThreshold: 2
+        errorThresholdPercentage: 50
+        sleepWindowInMilliseconds: 5000
+        enabled: true
+
+---
+#app1
+spring:
+  profiles: app-1
+
+server:
+  port: 9001
+---
+#app2
+spring:
+  profiles: app-2
+
+server:
+  port: 9002
+---
+#app3
+spring:
+  profiles: app-3
+
+server:
+  port: 9003
