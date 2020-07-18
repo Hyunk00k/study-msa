@@ -283,3 +283,5 @@ web.js/dist/
 
 # .http file
 *.http
+/.idea/
+/.gradle/
