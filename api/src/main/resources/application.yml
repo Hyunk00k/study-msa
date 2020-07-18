@@ -61,21 +61,21 @@ hystrix:
         enabled: true
 
 ---
-#app1
+#app-1
 spring:
   profiles: app-1
 
 server:
   port: 9001
 ---
-#app2
+#app-2
 spring:
   profiles: app-2
 
 server:
   port: 9002
 ---
-#app3
+#app-3
 spring:
   profiles: app-3
 

@@ -1,2 +1,2 @@
 rootProject.name = 'study-msa'
-include 'api', 'consumer', 'eureka', 'monitor'
+include 'api', 'consumer', 'eureka', 'monitor', 'config', 'gateway'

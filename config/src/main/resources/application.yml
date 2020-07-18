@@ -1,0 +1,45 @@
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 5
+    leaseExpirationDurationInSeconds: 10
+  client:
+    service-url:
+      defaultZone: http://eureka-1:8761/eureka/, http://eureka-2:8762/eureka/
+
+management:
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+    shutdown:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/spring-cloud-samples/config-repo
+
+  profiles:
+    active: config-1
+
+---
+#config-1
+spring:
+  profiles: config-1
+
+server:
+  port: 9011
+---
+#config-2
+spring:
+  profiles: config-2
+
+server:
+  port: 9012
+

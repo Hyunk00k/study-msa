@@ -56,6 +56,6 @@ subprojects {
 
 }
 
-configure([project(':api').project(':consumer'), project(':eureka'), project(':monitor')]) {
+configure([project(':api').project(':consumer'), project(':eureka'), project(':monitor'), project(':config'), project(':gateway')]) {
     jar.enabled = false
 }
