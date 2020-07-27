@@ -18,15 +18,28 @@ management:
       exposure:
         include: '*'
 
+logging:
+  level:
+    org.springframework.cloud.config: DEBUG
+
+
+
 spring:
   cloud:
     config:
       server:
-        git:
-          uri: https://github.com/spring-cloud-samples/config-repo
+        native:
+          search-locations: file:///Users/hyunkook/Work/01_GitHub/study-msa/config-repo/
+  application:
+    name: config
 
-  profiles:
-    active: config-1
+#        git:
+#          uri: https://github.com/Hyunk00k/study-msa
+#          basedir: target/config
+#          search-paths: config-repo #subdirectory
+#          default-label: study/msa-2 #branch
+
+
 
 ---
 #config-1
@@ -35,6 +48,7 @@ spring:
 
 server:
   port: 9011
+
 ---
 #config-2
 spring:

@@ -1,3 +1,53 @@
-who:
-  am:
-    i: local-hello
+imports:
+  - { resource : ./eureka-local.yml}
+
+service:
+  name: app-service-untouch
+
+management:
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+    shutdown:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+hystrix:
+  groupKey: system
+  fallbackMethod: brekaer
+  enabled: true
+  threadpool:
+    default:
+      coreSize: 50
+      maximumSize: 500
+      keepAliveTimeMinutes: 1
+      allowMaximumSizeToDivergeFromCoreSize: true
+    custom-th:
+      coreSize: 20
+      maximumSize: 40
+      keepAliveTimeMinutes: 1
+      allowMaximumSizeToDivergeFromCoreSize: true
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 100000
+      circuitBreaker:
+        requestVolumeThreshold: 2
+        errorThresholdPercentage: 50
+        enabled: true
+    custom-cm:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 10000
+      circuitBreaker:
+        requestVolumeThreshold: 2
+        errorThresholdPercentage: 50
+        sleepWindowInMilliseconds: 5000
+        enabled: true

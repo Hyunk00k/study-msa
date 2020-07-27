@@ -22,7 +22,7 @@ spring:
   application:
     name: consumer
 
-api:
+gateway:
   ribbon:
     #listOfServers: localhost:9001,localhost:9002,localhost:9003 #without Eureka
     ServerListRefreshInterval: 5000

@@ -1,0 +1,49 @@
+imports:
+  - { resource: ./eureka-local.yml}
+
+server:
+  port: 8101
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+    gateway:
+      httpclient:
+        connect-timeout: 1000
+        response-timeout: 1000
+      routes:
+        - id: gateway
+          uri: lb://API
+          predicates:
+            - Path=/**
+      default-filters:
+        - name: Retry
+          args:
+            retries: 3
+            series: # empty
+            methods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+            exceptions:
+              - java.net.ConnectException
+
+hystrix:
+  command:
+    default:
+      execution.isolation.thread.timeoutInMilliseconds: 100000
+      circuitBreaker:
+        errorThresholdPercentage: 1
+        requestVolumeThreshold: 1
+        sleepWindowInMilliseconds: 10000
+      metrics.rollingStats.timeInMilliseconds: 10000
+
+
+logging:
+  level:
+    org.springframework.cloud.gateway: TRACE

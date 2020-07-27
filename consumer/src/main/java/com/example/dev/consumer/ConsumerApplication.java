@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 @EnableCircuitBreaker
 @EnableDiscoveryClient
-@RibbonClient(name = "api")
+@RibbonClient(name = "gateway")
 public class ConsumerApplication {
 
     public static void main(String[] args) {

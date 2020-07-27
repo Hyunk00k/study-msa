@@ -23,19 +23,19 @@ public class ConsumerController {
     @HystrixCommand(groupKey = "consumer", commandKey = "consumer1", fallbackMethod = "notConnection")
 
     public String consumer1() {
-        return getRestTemplate().getForObject("http://api/response1", String.class);
+        return getRestTemplate().getForObject("http://gateway/api/response1", String.class);
     }
 
     @GetMapping("/consumer2")
     @HystrixCommand(groupKey = "consumer", commandKey = "consumer2", fallbackMethod = "notConnection")
     public String consumer2() {
-        return getRestTemplate().getForObject("http://api/response2", String.class);
+        return getRestTemplate().getForObject("http://gateway/api/response2", String.class);
     }
 
     @GetMapping("/error")
     @HystrixCommand(groupKey = "consumer", commandKey = "consumer2", fallbackMethod = "notConnection")
     public String error() {
-        return getRestTemplate().getForObject("http://api/error", String.class);
+        return getRestTemplate().getForObject("http://gateway/api/error", String.class);
     }
 
 
