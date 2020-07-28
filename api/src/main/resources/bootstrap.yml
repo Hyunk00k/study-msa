@@ -4,3 +4,25 @@ spring:
   cloud:
     config:
       uri: http://127.0.0.1:9011, http://127.0.0.1:9012
+
+---
+#app-1
+spring:
+  profiles: app-1
+
+server:
+  port: 9001
+---
+#app-2
+spring:
+  profiles: app-2
+
+server:
+  port: 9002
+---
+#app-3
+spring:
+  profiles: app-3
+
+server:
+  port: 9003

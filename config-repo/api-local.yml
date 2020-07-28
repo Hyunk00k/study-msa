@@ -2,7 +2,7 @@ imports:
   - { resource : ./eureka-local.yml}
 
 service:
-  name: app-service-untouch
+  name: app-service-touch
 
 management:
   endpoint:

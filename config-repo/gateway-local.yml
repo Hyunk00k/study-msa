@@ -21,6 +21,10 @@ spring:
           predicates:
             - Path=/**
       default-filters:
+        - name: Hystrix
+          args:
+            name: fallbackcmd
+            fallbackUri: forward:/fallback
         - name: Retry
           args:
             retries: 3

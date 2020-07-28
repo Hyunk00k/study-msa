@@ -25,13 +25,14 @@ logging:
 
 
 spring:
+  application:
+    name: config
   cloud:
     config:
       server:
         native:
           search-locations: file:///Users/hyunkook/Work/01_GitHub/study-msa/config-repo/
-  application:
-    name: config
+
 
 #        git:
 #          uri: https://github.com/Hyunk00k/study-msa
