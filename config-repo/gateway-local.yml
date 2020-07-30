@@ -1,25 +1,48 @@
 imports:
   - { resource: ./eureka-local.yml}
+  - { resource: ./zipkin-local.yml}
 
 server:
   port: 8101
 
+management:
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+    shutdown:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
 spring:
-  application:
-    name: gateway
   cloud:
     loadbalancer:
       ribbon:
         enabled: false
     gateway:
+      discovery:
+        locator:
+          enabled: true
       httpclient:
         connect-timeout: 1000
         response-timeout: 1000
       routes:
         - id: gateway
-          uri: lb://API
+          uri: lb://API-A
           predicates:
-            - Path=/**
+            - Path=/api-a/**
+          filters:
+            - RewritePath=/api-a/(?<segment>.*), /$\{segment}
+        - id: gateway
+          uri: lb://API-B
+          predicates:
+            - Path=/api-b/**
+          filters:
+            - RewritePath=/api-b/(?<segment>.*), /$\{segment}
+
       default-filters:
         - name: Hystrix
           args:
@@ -36,17 +59,6 @@ spring:
               - DELETE
             exceptions:
               - java.net.ConnectException
-
-hystrix:
-  command:
-    default:
-      execution.isolation.thread.timeoutInMilliseconds: 100000
-      circuitBreaker:
-        errorThresholdPercentage: 1
-        requestVolumeThreshold: 1
-        sleepWindowInMilliseconds: 10000
-      metrics.rollingStats.timeInMilliseconds: 10000
-
 
 logging:
   level:

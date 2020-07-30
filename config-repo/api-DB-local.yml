@@ -1,7 +1,12 @@
-eureka:
-  client:
-    service-url:
-      defaultZone: http://eureka-1:8761/eureka/, http://eureka-2:8762/eureka/
+imports:
+  - { resource : ./eureka-local.yml}
+  - { resource : ./zipkin-local.yml}
+
+service:
+  name: app-service-touch
+
+server:
+  port: 9005
 
 management:
   endpoint:
@@ -15,25 +20,33 @@ management:
       exposure:
         include: '*'
 
-server:
-  port: 10001
-
 spring:
-  application:
-    name: consumer
+  profiles:
+    include: h2
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        trace: true
+    datasource:
+      url: jdbc:h2:mem:testdb
+      driverClassName: org.h2.Driver
+      username: sa
+      password:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect:
+          org.hibernate.dialect.H2Dialect
 
-gateway:
-  ribbon:
-    #listOfServers: localhost:9001,localhost:9002,localhost:9003 #without Eureka
-    ServerListRefreshInterval: 5000
-    ConnectTimeout: 1000 #retry
-    ReadTimeout: 1000
-    MaxAutoRetries: 1
-    MaxAutoRetriesNextServer: 2
 
-ribbon:
-  eureka:
-    enabled: true
+loggin:
+  level:
+    org.springframework.data.r2dbc: DEBUG
 
 hystrix:
   groupKey: system
@@ -65,15 +78,8 @@ hystrix:
         isolation:
           thread:
             timeoutInMilliseconds: 10000
-      metric:
-        rollingStats:
-          timeInMilliseconds: 5000
       circuitBreaker:
         requestVolumeThreshold: 2
         errorThresholdPercentage: 50
         sleepWindowInMilliseconds: 5000
         enabled: true
-
-logging:
-  level:
-    org.springframework.retry: DEBUG

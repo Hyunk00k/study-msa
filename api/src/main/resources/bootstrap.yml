@@ -1,13 +1,14 @@
 spring:
-  application:
-    name: api
   cloud:
     config:
       uri: http://127.0.0.1:9011, http://127.0.0.1:9012
 
+
 ---
 #app-1
 spring:
+  application:
+    name: api-A
   profiles: app-1
 
 server:
@@ -15,6 +16,8 @@ server:
 ---
 #app-2
 spring:
+  application:
+    name: api-A
   profiles: app-2
 
 server:
@@ -22,7 +25,20 @@ server:
 ---
 #app-3
 spring:
+  application:
+    name: api-B
   profiles: app-3
 
 server:
   port: 9003
+
+---
+#app-4
+spring:
+  application:
+    name: api-B
+  profiles: app-4
+
+server:
+  port: 9004
+

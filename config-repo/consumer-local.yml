@@ -1,0 +1,74 @@
+imports:
+  - { resource : ./eureka-local.yml}
+  - { resource : ./zipkin-local.yml}
+
+server:
+  port: 10001
+
+management:
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+    shutdown:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+gateway:
+  ribbon:
+    #listOfServers: localhost:9001,localhost:9002,localhost:9003 #without Eureka
+    ServerListRefreshInterval: 5000
+    ConnectTimeout: 1000 #retry
+    ReadTimeout: 1000
+    MaxAutoRetries: 1
+    MaxAutoRetriesNextServer: 2
+
+ribbon:
+  eureka:
+    enabled: true
+
+hystrix:
+  groupKey: system
+  fallbackMethod: brekaer
+  enabled: true
+  threadpool:
+    default:
+      coreSize: 50
+      maximumSize: 500
+      keepAliveTimeMinutes: 1
+      allowMaximumSizeToDivergeFromCoreSize: true
+    custom-th:
+      coreSize: 20
+      maximumSize: 40
+      keepAliveTimeMinutes: 1
+      allowMaximumSizeToDivergeFromCoreSize: true
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 100000
+      circuitBreaker:
+        requestVolumeThreshold: 2
+        errorThresholdPercentage: 50
+        enabled: true
+    custom-cm:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 10000
+      metric:
+        rollingStats:
+          timeInMilliseconds: 5000
+      circuitBreaker:
+        requestVolumeThreshold: 2
+        errorThresholdPercentage: 50
+        sleepWindowInMilliseconds: 5000
+        enabled: true
+
+logging:
+  level:
+    org.springframework.retry: DEBUG
