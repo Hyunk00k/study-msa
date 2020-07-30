@@ -33,7 +33,7 @@ public class ApiController {
     }
 
     @GetMapping("/response1")
-    @HystrixCommand(groupKey = "study", commandKey = "resposne", fallbackMethod = "breaker")
+    @HystrixCommand(groupKey = "study", commandKey = "response", fallbackMethod = "breaker")
     public ResponseEntity<Map<String, Object>> response1() {
         log.info(serverPort);
         Map<String, Object> responseMqp = new HashMap();
