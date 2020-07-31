@@ -33,7 +33,7 @@ public class ConsumerController {
     @GetMapping("/api/consumer2")
     @HystrixCommand(groupKey = "consumer", commandKey = "consumer2", fallbackMethod = "notConnection")
     public String consumer2() {
-        return getRestTemplate().getForObject("http://gateway/" + getApiserver().get() + "response2", String.class);
+        return getRestTemplate().getForObject("http://gateway/" + getApiserver().get() + "/response2", String.class);
     }
 
     @GetMapping("/api/error")
