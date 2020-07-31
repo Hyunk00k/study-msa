@@ -1,0 +1,22 @@
+imports:
+  - { resource : ./eureka-local.yml}
+  - { resource : ./zipkin-local.yml}
+
+server:
+  port: 9010
+
+management:
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+    shutdown:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+turbine:
+  app-config: api, consumer
+  cluster-name-expression: new String('default')
