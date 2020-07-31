@@ -2,18 +2,16 @@ package com.example.dev.api;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 @Log4j2
 @RestController
@@ -25,7 +23,8 @@ public class ApiDBController {
     @Value("${service.name}")
     private String serviceName;
 
-    private ExecutorService executorService;
+    @Autowired
+    private EmployeesRepository repository;
 
     public ResponseEntity<Map<String, Object>> breaker() {
         log.info(" serverPort : {} serviceName : {} ", serverPort, serviceName);
@@ -48,6 +47,8 @@ public class ApiDBController {
         responseMqp.put("method", "response1");
         responseMqp.put("serverPort", serverPort);
         responseMqp.put("serviceName", serviceName);
+        responseMqp.put("employee", repository.findById((long) 1));
+
         return ResponseEntity
                 .ok()
                 .contentType(MediaType.APPLICATION_JSON)
@@ -63,8 +64,6 @@ public class ApiDBController {
         responseMqp.put("method", "response2");
         responseMqp.put("serverPort", serverPort);
         responseMqp.put("serviceName", serviceName);
-        executorService = Executors.newFixedThreadPool(2);
-        executorService.submit(new Worker());
         return ResponseEntity
                 .ok()
                 .contentType(MediaType.APPLICATION_JSON)

@@ -43,7 +43,7 @@ public class ConsumerController {
     }
 
     private Optional<String> getApiserver() {
-        List<String> strings = Arrays.asList("api-a", "api-b", "api");
+        List<String> strings = Arrays.asList("api-a", "api-b","api-a", "api-b","api-a", "api-b","api");
         Optional<String> apiServer = strings.stream().skip((int) (strings.size() * Math.random())).findAny();
         if (apiServer.isPresent()) {
             return apiServer;
