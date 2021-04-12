@@ -14,12 +14,14 @@ import java.util.Map;
 @Log4j2
 public class GatewayHandler {
 
-    public Mono<ServerResponse> fallback(ServerRequest request) {
-        log.info(" fallback : {} ", "Gateway-fallback");
+  public Mono<ServerResponse> fallback(ServerRequest request) {
+    log.info(" fallback : {} ", "Gateway-fallback");
 
-        Map<String, Object> responseMqp = new HashMap();
-        responseMqp.put("method", "fallback");
-        responseMqp.put("message", "java.net.ConnectException");
-        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(Mono.just(responseMqp), Object.class);
-    }
+    Map<String, Object> responseMqp = new HashMap();
+    responseMqp.put("method", "fallback");
+    responseMqp.put("message", "java.net.ConnectException");
+    return ServerResponse.ok()
+        .contentType(MediaType.APPLICATION_JSON)
+        .body(Mono.just(responseMqp), Object.class);
+  }
 }

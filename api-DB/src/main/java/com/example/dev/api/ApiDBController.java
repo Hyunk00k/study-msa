@@ -18,63 +18,55 @@ import java.util.Map;
 @RefreshScope
 public class ApiDBController {
 
-    @Value("${server.port}")
-    private String serverPort;
-    @Value("${service.name}")
-    private String serviceName;
+  @Value("${server.port}")
+  private String serverPort;
 
-    @Autowired
-    private EmployeesRepository repository;
+  @Value("${service.name}")
+  private String serviceName;
 
-    public ResponseEntity<Map<String, Object>> breaker() {
-        log.info(" serverPort : {} serviceName : {} ", serverPort, serviceName);
-        Map<String, Object> breakerResponseMqp = new HashMap();
-        breakerResponseMqp.put("method", "breaker");
-        breakerResponseMqp.put("serverPort", serverPort);
-        breakerResponseMqp.put("serviceName", serviceName);
-        return ResponseEntity
-                .status(302)
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(breakerResponseMqp);
-    }
+  @Autowired private EmployeesRepository repository;
 
-    @GetMapping("/internal/response1")
-    @HystrixCommand(groupKey = "study", commandKey = "resposne", fallbackMethod = "breaker")
-    public ResponseEntity<Map<String, Object>> response1() {
-        log.info(" serverPort : {} serviceName : {} ", serverPort, serviceName);
+  public ResponseEntity<Map<String, Object>> breaker() {
+    log.info(" serverPort : {} serviceName : {} ", serverPort, serviceName);
+    Map<String, Object> breakerResponseMqp = new HashMap();
+    breakerResponseMqp.put("method", "breaker");
+    breakerResponseMqp.put("serverPort", serverPort);
+    breakerResponseMqp.put("serviceName", serviceName);
+    return ResponseEntity.status(302)
+        .contentType(MediaType.APPLICATION_JSON)
+        .body(breakerResponseMqp);
+  }
 
-        Map<String, Object> responseMqp = new HashMap();
-        responseMqp.put("method", "response1");
-        responseMqp.put("serverPort", serverPort);
-        responseMqp.put("serviceName", serviceName);
-        responseMqp.put("employee", repository.findById((long) 1));
+  @GetMapping("/internal/response1")
+  @HystrixCommand(groupKey = "study", commandKey = "resposne", fallbackMethod = "breaker")
+  public ResponseEntity<Map<String, Object>> response1() {
+    log.info(" serverPort : {} serviceName : {} ", serverPort, serviceName);
 
-        return ResponseEntity
-                .ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(responseMqp);
-    }
+    Map<String, Object> responseMqp = new HashMap();
+    responseMqp.put("method", "response1");
+    responseMqp.put("serverPort", serverPort);
+    responseMqp.put("serviceName", serviceName);
+    responseMqp.put("employee", repository.findById((long) 1));
 
-    @GetMapping("/internal/response2")
-    @HystrixCommand(groupKey = "custom-th", commandKey = "custom-cm", fallbackMethod = "breaker")
-    public ResponseEntity<Map<String, Object>> response2() {
-        log.info(" serverPort : {} serviceName : {} ", serverPort, serviceName);
+    return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(responseMqp);
+  }
 
-        Map<String, Object> responseMqp = new HashMap();
-        responseMqp.put("method", "response2");
-        responseMqp.put("serverPort", serverPort);
-        responseMqp.put("serviceName", serviceName);
-        return ResponseEntity
-                .ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(responseMqp);
-    }
+  @GetMapping("/internal/response2")
+  @HystrixCommand(groupKey = "custom-th", commandKey = "custom-cm", fallbackMethod = "breaker")
+  public ResponseEntity<Map<String, Object>> response2() {
+    log.info(" serverPort : {} serviceName : {} ", serverPort, serviceName);
 
+    Map<String, Object> responseMqp = new HashMap();
+    responseMqp.put("method", "response2");
+    responseMqp.put("serverPort", serverPort);
+    responseMqp.put("serviceName", serviceName);
+    return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(responseMqp);
+  }
 
-    @GetMapping("/error")
-    @HystrixCommand(groupKey = "custom-th", commandKey = "custom-cm", fallbackMethod = "breaker")
-    public ResponseEntity<Map<String, Object>> error() throws Exception {
-        log.info(" serverPort : {} serviceName : {} ", serverPort, serviceName);
-        throw new RuntimeException("RuntimeException");
-    }
+  @GetMapping("/error")
+  @HystrixCommand(groupKey = "custom-th", commandKey = "custom-cm", fallbackMethod = "breaker")
+  public ResponseEntity<Map<String, Object>> error() throws Exception {
+    log.info(" serverPort : {} serviceName : {} ", serverPort, serviceName);
+    throw new RuntimeException("RuntimeException");
+  }
 }
