@@ -1,6 +1,10 @@
 package com.example.dev.api;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,17 +15,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 @Log4j2
 @RestController
 @RefreshScope
 public class ApiController {
 
-  @Autowired InternalClient internalClient;
+  @Autowired
+  InternalClient internalClient;
 
   @Value("${server.port}")
   private String serverPort;
@@ -39,9 +39,9 @@ public class ApiController {
     breakerResponseMqp.put("serverPort", serverPort);
     breakerResponseMqp.put("serviceName", serviceName);
     return Mono.just(
-        ResponseEntity.status(302)
-            .contentType(MediaType.APPLICATION_JSON)
-            .body(breakerResponseMqp));
+      ResponseEntity.status(302)
+        .contentType(MediaType.APPLICATION_JSON)
+        .body(breakerResponseMqp));
   }
 
   @GetMapping("/response1")
