@@ -12,8 +12,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ApiDBApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(ApiDBApplication.class, args);
-    }
-
+  public static void main(String[] args) {
+    SpringApplication.run(ApiDBApplication.class, args);
+  }
 }

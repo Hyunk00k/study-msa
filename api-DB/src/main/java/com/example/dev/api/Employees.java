@@ -12,9 +12,8 @@ import javax.persistence.Table;
 @Setter
 @Getter
 public class Employees {
-    @Id
-    Long id;
-    String firstName;
-    String lastName;
-    String email;
+  @Id Long id;
+  String firstName;
+  String lastName;
+  String email;
 }

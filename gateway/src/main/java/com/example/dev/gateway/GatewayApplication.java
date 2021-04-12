@@ -14,15 +14,13 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 @SpringBootApplication
 @EnableDiscoveryClient
 public class GatewayApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(GatewayApplication.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(GatewayApplication.class, args);
+  }
 
-    @Bean
-    RouterFunction routes(GatewayHandler gatewayHandler) {
-        return RouterFunctions
-                .route(GET("/fallback")
-                        .and(accept(MediaType.APPLICATION_JSON)), gatewayHandler::fallback)
-                ;
-    }
+  @Bean
+  RouterFunction routes(GatewayHandler gatewayHandler) {
+    return RouterFunctions.route(
+        GET("/fallback").and(accept(MediaType.APPLICATION_JSON)), gatewayHandler::fallback);
+  }
 }

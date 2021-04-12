@@ -12,7 +12,7 @@ import org.springframework.cloud.netflix.turbine.EnableTurbine;
 @EnableDiscoveryClient
 public class MonitorApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(MonitorApplication.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(MonitorApplication.class, args);
+  }
 }
