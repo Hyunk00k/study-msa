@@ -1,0 +1,85 @@
+imports:
+  - { resource : ./eureka-local.yml}
+  - { resource : ./zipkin-local.yml}
+
+service:
+  name: app-service-touch
+
+server:
+  port: 9005
+
+management:
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+    shutdown:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+spring:
+  profiles:
+    include: h2
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        trace: true
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect:
+          org.hibernate.dialect.H2Dialect
+
+
+loggin:
+  level:
+    org.springframework.data.r2dbc: DEBUG
+
+hystrix:
+  groupKey: system
+  fallbackMethod: brekaer
+  enabled: true
+  threadpool:
+    default:
+      coreSize: 50
+      maximumSize: 500
+      keepAliveTimeMinutes: 1
+      allowMaximumSizeToDivergeFromCoreSize: true
+    custom-th:
+      coreSize: 20
+      maximumSize: 40
+      keepAliveTimeMinutes: 1
+      allowMaximumSizeToDivergeFromCoreSize: true
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 100000
+      circuitBreaker:
+        requestVolumeThreshold: 2
+        errorThresholdPercentage: 50
+        enabled: true
+    custom-cm:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 10000
+      circuitBreaker:
+        requestVolumeThreshold: 2
+        errorThresholdPercentage: 50
+        sleepWindowInMilliseconds: 5000
+        enabled: true

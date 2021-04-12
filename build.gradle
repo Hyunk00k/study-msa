@@ -1,8 +1,8 @@
 buildscript {
     ext {
-        springBootVersion = '2.3.1.RELEASE'
+        springBootVersion = '2.3.2.RELEASE'
         dependencyManagementVersion = '1.0.9.RELEASE';
-        springCloudVersion = 'Hoxton.SR4';
+        springCloudVersion = 'Hoxton.SR6';
     }
     repositories {
         gradlePluginPortal()
@@ -41,12 +41,14 @@ subprojects {
         implementation 'org.springframework.boot:spring-boot-starter-actuator'
         implementation 'org.springframework.boot:spring-boot-starter-webflux'
         implementation 'org.springframework.cloud:spring-cloud-starter-config'
-//        implementation 'org.springframework.cloud:spring-cloud-starter-zipkin'
+        implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+        implementation 'org.springframework.cloud:spring-cloud-starter-zipkin'
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'
         testImplementation('org.springframework.boot:spring-boot-starter-test') {
             exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
         }
+        testImplementation 'io.projectreactor:reactor-test'
     }
 
     dependencyManagement {
@@ -57,6 +59,6 @@ subprojects {
 
 }
 
-configure([project(':api').project(':consumer'), project(':eureka'), project(':monitor'), project(':config'), project(':gateway')]) {
+configure([project(':api'), project(':api-DB'), project(':consumer'), project(':eureka'), project(':monitor'), project(':config'), project(':gateway')]) {
     jar.enabled = false
 }

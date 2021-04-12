@@ -1,5 +1,6 @@
 imports:
   - { resource : ./eureka-local.yml}
+  - { resource : ./zipkin-local.yml}
 
 service:
   name: app-service-touch
