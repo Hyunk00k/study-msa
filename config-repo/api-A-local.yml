@@ -1,7 +1,9 @@
-eureka:
-  client:
-    service-url:
-      defaultZone: http://eureka-1:8761/eureka/, http://eureka-2:8762/eureka/
+imports:
+  - { resource : ./eureka-local.yml}
+  - { resource : ./zipkin-local.yml}
+
+service:
+  name: app-service-touch
 
 management:
   endpoint:
@@ -14,26 +16,6 @@ management:
     web:
       exposure:
         include: '*'
-
-server:
-  port: 10001
-
-spring:
-  application:
-    name: consumer
-
-gateway:
-  ribbon:
-    #listOfServers: localhost:9001,localhost:9002,localhost:9003 #without Eureka
-    ServerListRefreshInterval: 5000
-    ConnectTimeout: 1000 #retry
-    ReadTimeout: 1000
-    MaxAutoRetries: 1
-    MaxAutoRetriesNextServer: 2
-
-ribbon:
-  eureka:
-    enabled: true
 
 hystrix:
   groupKey: system
@@ -65,15 +47,8 @@ hystrix:
         isolation:
           thread:
             timeoutInMilliseconds: 10000
-      metric:
-        rollingStats:
-          timeInMilliseconds: 5000
       circuitBreaker:
         requestVolumeThreshold: 2
         errorThresholdPercentage: 50
         sleepWindowInMilliseconds: 5000
         enabled: true
-
-logging:
-  level:
-    org.springframework.retry: DEBUG

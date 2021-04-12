@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: api-DB
+  profiles:
+    active: local
+  cloud:
+    config:
+      uri: http://127.0.0.1:9011, http://127.0.0.1:9012
+

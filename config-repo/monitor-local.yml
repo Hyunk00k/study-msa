@@ -1,7 +1,9 @@
-eureka:
-  client:
-    service-url:
-      defaultZone: http://eureka-1:8761/eureka/, http://eureka-2:8762/eureka/
+imports:
+  - { resource : ./eureka-local.yml}
+  - { resource : ./zipkin-local.yml}
+
+server:
+  port: 9010
 
 management:
   endpoint:
@@ -15,13 +17,6 @@ management:
       exposure:
         include: '*'
 
-spring:
-  application:
-    name: monitor
-
 turbine:
   app-config: api, consumer
   cluster-name-expression: new String('default')
-
-server:
-  port: 9010
