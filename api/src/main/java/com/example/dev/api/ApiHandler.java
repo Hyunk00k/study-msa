@@ -32,8 +32,8 @@ public class ApiHandler {
     responseMqp.put("serverPort", serverPort);
     responseMqp.put("serviceName", serviceName);
     return ServerResponse.ok()
-      .contentType(MediaType.APPLICATION_JSON)
-      .body(Mono.just(responseMqp), Object.class);
+        .contentType(MediaType.APPLICATION_JSON)
+        .body(Mono.just(responseMqp), Object.class);
   }
 
   public Mono<ServerResponse> handler2(ServerRequest request) {
@@ -46,8 +46,8 @@ public class ApiHandler {
     executorService = Executors.newFixedThreadPool(2);
     executorService.submit(new Worker());
     return ServerResponse.ok()
-      .contentType(MediaType.APPLICATION_JSON)
-      .body(Mono.just(responseMqp), Object.class);
+        .contentType(MediaType.APPLICATION_JSON)
+        .body(Mono.just(responseMqp), Object.class);
   }
 
   public Mono<ServerResponse> error2(ServerRequest request) throws Exception {

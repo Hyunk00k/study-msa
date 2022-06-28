@@ -28,7 +28,7 @@ public class ApiApplication {
   @Bean
   RouterFunction routes(ApiHandler apiHandler) {
     return RouterFunctions.route(
-      GET("/handler1").and(accept(MediaType.APPLICATION_JSON)), apiHandler::handler1)
-      .andRoute(GET("/handler2").and(accept(MediaType.APPLICATION_JSON)), apiHandler::handler2);
+            GET("/handler1").and(accept(MediaType.APPLICATION_JSON)), apiHandler::handler1)
+        .andRoute(GET("/handler2").and(accept(MediaType.APPLICATION_JSON)), apiHandler::handler2);
   }
 }

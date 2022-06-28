@@ -20,8 +20,7 @@ import reactor.core.publisher.Mono;
 @RefreshScope
 public class ApiController {
 
-  @Autowired
-  InternalClient internalClient;
+  @Autowired InternalClient internalClient;
 
   @Value("${server.port}")
   private String serverPort;
@@ -39,9 +38,9 @@ public class ApiController {
     breakerResponseMqp.put("serverPort", serverPort);
     breakerResponseMqp.put("serviceName", serviceName);
     return Mono.just(
-      ResponseEntity.status(302)
-        .contentType(MediaType.APPLICATION_JSON)
-        .body(breakerResponseMqp));
+        ResponseEntity.status(302)
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(breakerResponseMqp));
   }
 
   @GetMapping("/response1")
