@@ -1,5 +1,8 @@
 package com.example.dev.api;
 
+import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
+import static org.springframework.web.reactive.function.server.RequestPredicates.accept;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
@@ -10,9 +13,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
-
-import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
-import static org.springframework.web.reactive.function.server.RequestPredicates.accept;
 
 @EnableDiscoveryClient
 @EnableCircuitBreaker
@@ -28,7 +28,7 @@ public class ApiApplication {
   @Bean
   RouterFunction routes(ApiHandler apiHandler) {
     return RouterFunctions.route(
-            GET("/handler1").and(accept(MediaType.APPLICATION_JSON)), apiHandler::handler1)
-        .andRoute(GET("/handler2").and(accept(MediaType.APPLICATION_JSON)), apiHandler::handler2);
+      GET("/handler1").and(accept(MediaType.APPLICATION_JSON)), apiHandler::handler1)
+      .andRoute(GET("/handler2").and(accept(MediaType.APPLICATION_JSON)), apiHandler::handler2);
   }
 }
