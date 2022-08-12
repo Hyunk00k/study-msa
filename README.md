@@ -25,4 +25,3 @@ implementation 'org.springframework.cloud:spring-cloud-starter-config’
 |Eureka|2|127.0.0.1|8761,8762|eureka-server|
 |Monitor|1|127.0.0.1|9010|eureka-client, turbin, hystrix-dashboard|
 
-
