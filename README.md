@@ -24,4 +24,3 @@ implementation 'org.springframework.cloud:spring-cloud-starter-config’
 |Consumer|1|127.0.0.1|10001|eureka-client, hystrix, ribbon, spring-retry|
 |Eureka|2|127.0.0.1|8761,8762|eureka-server|
 |Monitor|1|127.0.0.1|9010|eureka-client, turbin, hystrix-dashboard|
-
